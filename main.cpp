@@ -11,6 +11,7 @@ bool is_add_or_subtr(vector <string> data);
 vector <string> multi_div(vector <string> data);
 vector <string> add_subtr(vector <string> data);
 void result(vector <string> data, vector <string> data2);
+void menu();
 
 int main()
 {
@@ -21,6 +22,9 @@ int main()
 	if (is_add_or_subtr(operation) == true)
 		operation = add_subtr(operation);
 	result(primary_operation, operation);
+	primary_operation.clear();
+	operation.clear();
+	cin.get();
 	return 0;
 }
 	
@@ -187,4 +191,11 @@ void result(vector <string> data, vector <string> data2)
 	for (int i = 0; i < data2.size(); i++)
 		result = data2[i];
 	cout << result;
+}
+
+void menu()
+{
+	cout << "\n\nWhat do you want to do next?\n";
+	cout << "1. Next operation to solve.\n";
+	cout << "2. Exit.\n";
 }
