@@ -5,192 +5,186 @@
 
 using namespace std;
 
-vector <string> przyjecie_dzialania();
-bool czy_dzielenie_lub_mnozenie(vector <string> dane);
-bool czy_dodawanie_lub_odejmowanie(vector <string> dane);
-vector <string> dzielenie_mnozenie(vector <string> dane);
-vector <string> odejmowanie_dodawanie(vector <string> dane);
-void wynik(vector <string> dane, vector <string> dane2);
+vector <string> operation_acceptation();
+bool is_multi_or_div(vector <string> data);
+bool is_add_or_subtr(vector <string> data);
+vector <string> multi_div(vector <string> data);
+vector <string> add_subtr(vector <string> data);
+void result(vector <string> data, vector <string> data2);
 
 int main()
 {
-	while (1)
-	{
-		vector <string> dzialanie_p = przyjecie_dzialania();
-		vector <string> dzialanie = dzialanie_p;
-		/*for (int i = 0; i < dzialanie.size(); i++)
-				cout << dzialanie[i] << "\n";*/
-		dzialanie = dzielenie_mnozenie(dzialanie);
-		/*for (int i = 0; i < dzialanie.size(); i++)
-			cout << dzialanie[i] << "\n";*/
-		dzialanie = odejmowanie_dodawanie(dzialanie);
-		/*for (int i = 0; i < dzialanie.size(); i++)
-			cout << dzialanie[i] << "\n";*/
-		wynik(dzialanie_p, dzialanie);
-		return 0;
-	};
+	vector <string> primary_operation = operation_acceptation();
+	vector <string> operation = primary_operation;
+	if (is_multi_or_div(operation) == true)
+		operation = multi_div(operation);
+	if (is_add_or_subtr(operation) == true)
+		operation = add_subtr(operation);
+	result(primary_operation, operation);
+	return 0;
 }
 	
-vector <string> przyjecie_dzialania()
+vector <string> operation_acceptation()
 {
-	cout << "Wpisz dzialanie do rozwiazania.\n";
-	cout << "Odzielaj znaki spacja oraz zakoncz nia dzialanie.\n";
-	cout << "Przyklad: 2 + 2 .\n";
-	string dzialanie;
-	getline(cin, dzialanie);
+	cout << "Type a math operation to solve.\n";
+	cout << "Remember to separate the characters with SPACE.\n";
+	cout << "Remember to end your operation with SPACE.\n";
+	cout << "Example: 2 + 2 .\n";
+	string operation;
+	getline(cin, operation);
 
-	vector <string> dane;
+	vector <string> data;
 	string temp;
 	temp.clear();
 	int i = 0;
 
-	while (i < dzialanie.length())
+	while (i < operation.length())
 	{
-		if (dzialanie[i] != 32)
+		if (operation[i] != 32)
 		{
-			temp += dzialanie[i];
+			temp += operation[i];
 			i++;
 		}
 		else
 		{
-			dane.push_back(temp);
+			data.push_back(temp);
 			temp.clear();
 			i++;
 		}
 	}
 	system("cls");
-	return dane;
+	return data;
 }
 
-bool czy_dzielenie_lub_mnozenie(vector <string> dane)
+bool is_multi_or_div(vector <string> data)
 {
-	for (int i = 0; i < dane.size(); i++)
+	for (int i = 0; i < data.size(); i++)
 	{
-		if (dane[i] == "/" || dane[i] == "*")
+		if (data[i] == "/" || data[i] == "*")
 			return true;
 	}
 	return false;
 }
 
-bool czy_dodawanie_lub_odejmowanie(vector <string> dane)
+bool is_add_or_subtr(vector <string> data)
 {
-	for (int i = 0; i < dane.size(); i++)
+	for (int i = 0; i < data.size(); i++)
 	{
-		if (dane[i] == "+" || dane[i] == "-")
+		if (data[i] == "+" || data[i] == "-")
 			return true;
 	}
 	return false;
 }
 
-vector <string> dzielenie_mnozenie(vector <string> dane)
+vector <string> multi_div(vector <string> data)
 {
-	vector <string> dane2;
-	vector <string> dane3;
-	for (int i = 0; i < dane.size(); i++)
+	vector <string> data2;
+	vector <string> data3;
+	for (int i = 0; i < data.size(); i++)
 	{
-		if (dane[i] == "/")
+		if (data[i] == "/")
 		{
-			istringstream iss(dane[i - 1]);
+			istringstream iss(data[i - 1]);
 			float temp;
 			iss >> temp;
-			istringstream iss2(dane[i + 1]);
+			istringstream iss2(data[i + 1]);
 			float temp2;
 			iss2 >> temp2;
 			temp /= temp2;
 			ostringstream ss;
 			ss << temp;
 			string str = ss.str();
-			dane[i + 1] = str;
-			dane2.push_back(str);
+			data[i + 1] = str;
+			data2.push_back(str);
 			i++;
 			continue;
 		}
-		else if (dane[i] == "*")
+		else if (data[i] == "*")
 		{
-			istringstream iss(dane[i - 1]);
+			istringstream iss(data[i - 1]);
 			float temp;
 			iss >> temp;
-			istringstream iss2(dane[i + 1]);
+			istringstream iss2(data[i + 1]);
 			float temp2;
 			iss2 >> temp2;
 			temp *= temp2;
 			ostringstream ss;
 			ss << temp;
 			string str = ss.str();
-			dane[i + 1] = str;
-			dane2.push_back(str);
+			data[i + 1] = str;
+			data2.push_back(str);
 			i++;
 			continue;
 		}
 		else
-			dane2.push_back(dane[i]);
+			data2.push_back(data[i]);
 	}
-	string koniec;
-	for (int i = 0; i < dane2.size(); i++)
+	string end;
+	for (int i = 0; i < data2.size(); i++)
 	{
-		if (dane2[i] == "+" || dane2[i] == "-")
+		if (data2[i] == "+" || data2[i] == "-")
 		{
-			dane3.push_back(dane2[i - 1]);
-			dane3.push_back(dane2[i]);
+			data3.push_back(data2[i - 1]);
+			data3.push_back(data2[i]);
 		}
-		koniec = dane2[i];
+		end = data2[i];
 	}
-	dane3.push_back(koniec);
-	return dane3;
+	data3.push_back(end);
+	return data3;
 }
 
-vector <string> odejmowanie_dodawanie(vector <string> dane)
+vector <string> add_subtr(vector <string> data)
 {
-	vector <string> dane2;
-	for (int i = 0; i < dane.size(); i++)
+	vector <string> data2;
+	for (int i = 0; i < data.size(); i++)
 	{
-		if (dane[i] == "-")
+		if (data[i] == "-")
 		{
-			istringstream iss(dane[i - 1]);
+			istringstream iss(data[i - 1]);
 			float temp;
 			iss >> temp;
-			istringstream iss2(dane[i + 1]);
+			istringstream iss2(data[i + 1]);
 			float temp2;
 			iss2 >> temp2;
 			temp -= temp2;
 			ostringstream ss;
 			ss << temp;
 			string str = ss.str();
-			dane[i + 1] = str;
-			dane2.push_back(str);
+			data[i + 1] = str;
+			data2.push_back(str);
 			i++;
 			continue;
 		}
-		else if (dane[i] == "+")
+		else if (data[i] == "+")
 		{
-			istringstream iss(dane[i - 1]);
+			istringstream iss(data[i - 1]);
 			float temp;
 			iss >> temp;
-			istringstream iss2(dane[i + 1]);
+			istringstream iss2(data[i + 1]);
 			float temp2;
 			iss2 >> temp2;
 			temp += temp2;
 			ostringstream ss;
 			ss << temp;
 			string str = ss.str();
-			dane[i + 1] = str;
-			dane2.push_back(str);
+			data[i + 1] = str;
+			data2.push_back(str);
 			i++;
 			continue;
 		}
 		else
-			dane2.push_back(dane[i]);
+			data2.push_back(data[i]);
 	}
-	return dane2;
+	return data2;
 }
 
-void wynik(vector <string> dane, vector <string> dane2)
+void result(vector <string> data, vector <string> data2)
 {
-	for (int i = 0; i < dane.size(); i++)
-		cout << dane[i] << " ";
+	for (int i = 0; i < data.size(); i++)
+		cout << data[i] << " ";
 	cout << "= ";
-	string wynik;
-	for (int i = 0; i < dane2.size(); i++)
-		wynik = dane2[i];
-	cout << wynik;
+	string result;
+	for (int i = 0; i < data2.size(); i++)
+		result = data2[i];
+	cout << result;
 }
